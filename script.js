@@ -21,7 +21,7 @@ class Board{
         }
     }
     assign_position(){
-        this.tilemap[this.snake.y][this.snake.x] = 1
+        this.tilemap[this.snake.y][this.snake.x] = -1
     }
     draw_board(){
             let structure = ""
@@ -55,7 +55,7 @@ class Board{
     
     getTileMapByPosition(x, y) {
         if (this.tilemap[x][y] == 0) return " ";
-        if (this.tilemap[x][y] == 1) return "head";
+        if (this.tilemap[x][y] == -1) return "head";
     }
     
     
@@ -71,3 +71,14 @@ document.getElementById("start").addEventListener("click", ()=>{
     document.getElementById("start").disabled = true;
     
 })
+
+if keydown = szczała w prawo{board.snake.direction = "right"}
+if keydown = szczała w dół{board.snake.direction = "down"}
+if keydown = szczała w lewo{board.snake.direction = "left"}
+if keydown = szczała w gure{board.snake.direction = "up"}
+
+co jakiś czas{
+    sprawdź następną pozycję snejka
+    zmien w board.tilemap
+    narysuj nowe
+}
