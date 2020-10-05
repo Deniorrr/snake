@@ -160,3 +160,18 @@ document.onkeypress = (event) => {
     if (x == 97) board.snake.direction = "left";
     if (x == 119) board.snake.direction = "top";
 }
+// if keydown = szczała w prawo{board.snake.direction = "right"}
+// if keydown = szczała w dół{board.snake.direction = "down"}
+// if keydown = szczała w lewo{board.snake.direction = "left"}
+// if keydown = szczała w gure{board.snake.direction = "up"}
+
+// co jakiś czas{
+//     sprawdź następną pozycję snejka
+//     zmien w board.tilemap
+//     narysuj nowe
+// }
+
+//d = 100
+//s = 115
+//a = 95
+//w = 119
