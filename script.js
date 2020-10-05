@@ -84,6 +84,20 @@ class Board {
             }
         }
     }
+     draw_apple_position(){
+        let tile_amount = this.height*this.width;
+        let board[];
+        for(int i = 1; i<= this.height; i++)
+            {
+                for(int j = 1; j<= this.width; j++)
+                {
+                    if(this.tilemap[i][j] == 0)
+                        {
+                           tilemap.push([1]) 
+                        }
+                }
+            }
+        }
 }
 
 const board = new Board(15, 15);
