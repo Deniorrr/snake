@@ -9,12 +9,23 @@ class Snake {
     }
 }
 
+class Apple {
+    constructor(height, width) {
+        this.x;
+        this.y;
+    }
+    draw_position() {
+        this.x = Math.floor(Math.random() * height + 1)
+        this.y = Math.floor(Math.random() * width + 1)
+    }
+}
 class Board {
     constructor(width, height) {
         this.element = document.getElementById("board");
         this.height = width;
         this.width = height;
         this.snake = new Snake();
+        this.apple = new Apple();
         this.createTileMap()
         this.assign_position()
         this.draw_tile = () => {
@@ -27,13 +38,13 @@ class Board {
         this.tilemap[this.snake.y][this.snake.x] = -1
     }
     draw_board() {
-        let structure = ""
-        structure = "<table>";
+        let structure = "<input type='button' id='start' value='start'>"
+        structure += "<table>";
         for (let i = 1; i <= this.height; i++) {
             structure += "<tr>";
             for (let j = 1; j <= this.width; j++) {
                 structure += "<td class=" + this.getTileMapByPosition(j, i) + ">";
-                structure += this.tilemap[j][i];
+                //structure += this.tilemap[j][i];
 
                 structure += "</td>";
             }
@@ -42,30 +53,50 @@ class Board {
         structure += "</table>";
         this.element.innerHTML = structure;
     }
-    createTileMap() {
-        this.tilemap = [];
-
-        for (let i = 1; i <= this.height; i++) {
-            this.tilemap[i] = []
-
-            for (let j = 1; j <= this.width; j++) {
-                this.tilemap[i][j] = 0
-            }
-        }
-    }
-
     getTileMapByPosition(x, y) {
         if (this.tilemap[x][y] == 0) return " ";
         if (this.tilemap[x][y] == -1) return "head";
         if (this.tilemap[x][y] > 0) return "wtf";
     }
+    createTileMap() {
+        this.tilemap = [];
+
+        for (let i = 1; i <= this.width; i++) {
+            this.tilemap[i] = []
+
+            for (let j = 1; j <= this.height; j++) {
+                this.tilemap[i][j] = 0
+            }
+        }
+    }
 
 
     check_pos() {
-        if (this.snake.direction == "right") this.snake.x += 1;
-        if (this.snake.direction == "down") this.snake.y += 1;
-        if (this.snake.direction == "left") this.snake.x -= 1;
-        if (this.snake.direction == "top") this.snake.y -= 1;
+        switch (this.snake.direction) {
+            case "right":
+                this.snake.x += 1;
+                break;
+            case "down":
+                this.snake.y += 1;
+                break;
+            case "left":
+                this.snake.x -= 1;
+                break;
+            case "top":
+                this.snake.y -= 1;
+                break;
+        }
+        // if (this.snake.direction == "right") this.snake.x += 1;
+        // if (this.snake.direction == "down") this.snake.y += 1;
+        // if (this.snake.direction == "left") this.snake.x -= 1;
+        // if (this.snake.direction == "top") this.snake.y -= 1;
+
+        if (this.snake.x > this.width || this.snake.x < 1 || this.snake.y > this.height || this.snake.y < 1 || this.tilemap[this.snake.x][this.snake.y] > 0) {
+            this.lose();
+        }
+        if (this.tilemap[this.snake.x][this.snake.y] == -2) {
+            this.snake.score += 1;
+        }
     }
 
     moveontilemap() {
@@ -73,7 +104,7 @@ class Board {
         this.snake.prev_y = this.snake.y;
         this.check_pos();
         this.move_snake_body();
-        this.tilemap[this.snake.prev_x][this.snake.prev_y] = 15;
+        this.tilemap[this.snake.prev_x][this.snake.prev_y] = 2 + this.snake.score;
         this.tilemap[this.snake.x][this.snake.y] = -1;
         this.draw_board();
     }
@@ -84,9 +115,15 @@ class Board {
             }
         }
     }
+    lose() {
+        clearInterval(tick);
+        setTimeout(() => {
+            this.element.innerHTML = "<h1>GG</h1>";
+        }, 1)
+    }
 }
 
-const board = new Board(15, 15);
+const board = new Board(20, 20);
 board.draw_board();
 let tick;
 document.getElementById("start").addEventListener("click", () => {

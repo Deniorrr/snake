@@ -18,6 +18,8 @@ body {
 
 .board {
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
 }
 
 td {
@@ -38,4 +40,15 @@ td {
 
 input {
     color: white;
+}
+
+h1 {
+    color: #ffffff
+}
+
+.score {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #ffffff;
 }
