@@ -33,6 +33,7 @@ class Board {
             structure += "<td>";
             structure += "</td>";
         }
+        this.draw_apple_pos();
     }
     assign_position() {
         this.tilemap[this.snake.y][this.snake.x] = -1
@@ -56,7 +57,8 @@ class Board {
     getTileMapByPosition(x, y) {
         if (this.tilemap[x][y] == 0) return " ";
         if (this.tilemap[x][y] == -1) return "head";
-        if (this.tilemap[x][y] > 0) return "wtf";
+        if (this.tilemap[x][y] == -2) return "apple";
+        if (this.tilemap[x][y] > 0) return "tail";
     }
     createTileMap() {
         this.tilemap = [];
@@ -96,9 +98,23 @@ class Board {
         }
         if (this.tilemap[this.snake.x][this.snake.y] == -2) {
             this.snake.score += 1;
+            this.draw_apple_pos();
         }
     }
-
+    draw_apple_pos() {
+        // let tilemap_copy = this.tilemap;
+        // for (let i = 1; i <= this.height; i++) {
+        //     for (let j = 1; j <= this.width; j++) {
+        //         if (this.tilemap[j][i] != 0) this.tilemap_copy[j][i].pop();
+        //     }
+        // }
+        do {
+            console.log("XD")
+            this.apple.x = Math.floor(Math.random() * this.height + 1);
+            this.apple.y = Math.floor(Math.random() * this.width + 1);
+        } while (this.tilemap == 0)
+        this.tilemap[this.apple.y][this.apple.x] = -2;
+    }
     moveontilemap() {
         this.snake.prev_x = this.snake.x;
         this.snake.prev_y = this.snake.y;
@@ -132,9 +148,10 @@ document.getElementById("start").addEventListener("click", () => {
         board.moveontilemap();
     }, 100)
 })
-document.getElementById("stop").addEventListener("click", () => {
-    clearInterval(tick)
-})
+// DEV TOOL
+// document.getElementById("stop").addEventListener("click", () => {
+//     clearInterval(tick)
+// })
 
 document.onkeypress = (event) => {
     let x = event.which || event.keyCode;
@@ -143,18 +160,3 @@ document.onkeypress = (event) => {
     if (x == 97) board.snake.direction = "left";
     if (x == 119) board.snake.direction = "top";
 }
-// if keydown = szczała w prawo{board.snake.direction = "right"}
-// if keydown = szczała w dół{board.snake.direction = "down"}
-// if keydown = szczała w lewo{board.snake.direction = "left"}
-// if keydown = szczała w gure{board.snake.direction = "up"}
-
-// co jakiś czas{
-//     sprawdź następną pozycję snejka
-//     zmien w board.tilemap
-//     narysuj nowe
-// }
-
-//d = 100
-//s = 115
-//a = 95
-//w = 119
