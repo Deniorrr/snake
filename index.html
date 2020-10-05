@@ -8,7 +8,13 @@
 </head>
 
 <body>
-    <div class="score"></div>
+    <div id="settings" class="settings">
+        <label for="height">HEIGHT:<input type="number" id="height" min="5" max="25"></label><br>
+        <label for="width">WIDTH:<input type="number" id="width" min="5" max="30"></label><br>
+        <label for="speed">SPEED:<input type="number" id="speed" min="1"></label><br>
+    </div>
+    <h3 id="score" class="score">
+    </h3>
     <!-- DEV TOOL:<input type="button" id="stop" value="stop"> -->
     <div id="board" class="board">
         <input type="button" id="start" value="start">

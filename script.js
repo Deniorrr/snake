@@ -20,10 +20,11 @@ class Apple {
     }
 }
 class Board {
-    constructor(width, height) {
+    constructor(width, height, speed) {
         this.element = document.getElementById("board");
         this.height = width;
         this.width = height;
+        this.speed = 1000 / speed;
         this.snake = new Snake();
         this.apple = new Apple();
         this.createTileMap()
@@ -34,6 +35,7 @@ class Board {
             structure += "</td>";
         }
         this.draw_apple_pos();
+        this.changescoreboard();
     }
     assign_position() {
         this.tilemap[this.snake.y][this.snake.x] = -1
@@ -99,6 +101,7 @@ class Board {
         if (this.tilemap[this.snake.x][this.snake.y] == -2) {
             this.snake.score += 1;
             this.draw_apple_pos();
+            this.changescoreboard()
         }
     }
     draw_apple_pos() {
@@ -110,10 +113,10 @@ class Board {
         // }
         do {
             console.log("XD")
-            this.apple.x = Math.floor(Math.random() * this.height + 1);
-            this.apple.y = Math.floor(Math.random() * this.width + 1);
-        } while (this.tilemap == 0)
-        this.tilemap[this.apple.y][this.apple.x] = -2;
+            this.apple.x = Math.floor(Math.random() * this.width + 1);
+            this.apple.y = Math.floor(Math.random() * this.height + 1);
+        } while (this.tilemap[this.apple.x][this.apple.y] != 0)
+        this.tilemap[this.apple.x][this.apple.y] = -2;
     }
     moveontilemap() {
         this.snake.prev_x = this.snake.x;
@@ -137,16 +140,24 @@ class Board {
             this.element.innerHTML = "<h1>GG</h1>";
         }, 1)
     }
+    changescoreboard() {
+        let scoreboard = document.getElementById("score");
+        scoreboard.innerHTML = "SCORE: " + this.snake.score;
+    }
 }
 
-const board = new Board(20, 20);
-board.draw_board();
+
 let tick;
 document.getElementById("start").addEventListener("click", () => {
+    let height = document.getElementById("height").value;
+    let width = document.getElementById("width").value;
+    let speed = document.getElementById("speed").value;
+    window.board = new Board(height, width, speed);
+    board.draw_board();
     document.getElementById("start").disabled = true;
     tick = setInterval(() => {
         board.moveontilemap();
-    }, 100)
+    }, board.speed)
 })
 // DEV TOOL
 // document.getElementById("stop").addEventListener("click", () => {
