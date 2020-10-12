@@ -34,6 +34,7 @@ class Board {
             structure += "<td>";
             structure += "</td>";
         }
+        this.last_move;
         this.draw_apple_pos();
         this.changescoreboard();
     }
@@ -48,7 +49,6 @@ class Board {
             for (let j = 1; j <= this.width; j++) {
                 structure += "<td class=" + this.getTileMapByPosition(j, i) + ">";
                 //structure += this.tilemap[j][i];
-
                 structure += "</td>";
             }
             structure += "</tr>";
@@ -79,21 +79,21 @@ class Board {
         switch (this.snake.direction) {
             case "right":
                 this.snake.x += 1;
+                this.last_move = "right"
                 break;
             case "down":
                 this.snake.y += 1;
+                this.last_move = "down"
                 break;
             case "left":
                 this.snake.x -= 1;
+                this.last_move = "left"
                 break;
             case "top":
                 this.snake.y -= 1;
+                this.last_move = "top"
                 break;
         }
-        // if (this.snake.direction == "right") this.snake.x += 1;
-        // if (this.snake.direction == "down") this.snake.y += 1;
-        // if (this.snake.direction == "left") this.snake.x -= 1;
-        // if (this.snake.direction == "top") this.snake.y -= 1;
 
         if (this.snake.x > this.width || this.snake.x < 1 || this.snake.y > this.height || this.snake.y < 1 || this.tilemap[this.snake.x][this.snake.y] > 0) {
             this.lose();
@@ -112,7 +112,7 @@ class Board {
         //     }
         // }
         do {
-            console.log("XD")
+            
             this.apple.x = Math.floor(Math.random() * this.width + 1);
             this.apple.y = Math.floor(Math.random() * this.height + 1);
         } while (this.tilemap[this.apple.x][this.apple.y] != 0)
@@ -148,16 +148,17 @@ class Board {
     }
 }
 
+board = null;
 
 let tick;
 document.getElementById("start").addEventListener("click", () => {
+    console.log("ESSA")
     tick = null;
     window.board = null;
     let height = document.getElementById("height").value;
     let width = document.getElementById("width").value;
     let speed = document.getElementById("speed").value;
-
-    window.board = new Board(height, width, speed);
+    board = new Board(height, width, speed);
     board.draw_board();
     tick = setInterval(() => {
         board.moveontilemap();
@@ -170,23 +171,13 @@ document.getElementById("stop").addEventListener("click", () => {
 
 document.onkeypress = (event) => {
     let x = event.which || event.keyCode;
-    if (x == 100) board.snake.direction = "right";
-    if (x == 115) board.snake.direction = "down";
-    if (x == 97) board.snake.direction = "left";
-    if (x == 119) board.snake.direction = "top";
+        if (x == 100 && board.last_move!="left") board.snake.direction = "right";
+        if (x == 115 && board.last_move!="top") board.snake.direction = "down";
+        if (x == 97 && board.last_move!="right") board.snake.direction = "left";
+        if (x == 119 && board.last_move!="down") board.snake.direction = "top";
 }
-// if keydown = szczała w prawo{board.snake.direction = "right"}
-// if keydown = szczała w dół{board.snake.direction = "down"}
-// if keydown = szczała w lewo{board.snake.direction = "left"}
-// if keydown = szczała w gure{board.snake.direction = "up"}
-
-// co jakiś czas{
-//     sprawdź następną pozycję snejka
-//     zmien w board.tilemap
-//     narysuj nowe
-// }
 
 //d = 100
 //s = 115
-//a = 95
+//a = 97
 //w = 119
