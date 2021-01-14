@@ -137,7 +137,7 @@ class Board {
     lose() {
         clearInterval(tick);
         setTimeout(() => {
-            this.element.innerHTML = "<input type='button' id='start' value='start'>"
+            this.element.innerHTML = "<input type='button' id='start' value='start' onclick='start()'>"
             this.element.innerHTML += "<h1>GG</h1>";
         }, 1);
 
@@ -151,7 +151,7 @@ class Board {
 board = null;
 
 let tick;
-document.getElementById("start").addEventListener("click", () => {
+function start(){
     console.log("ESSA")
     tick = null;
     window.board = null;
@@ -163,11 +163,11 @@ document.getElementById("start").addEventListener("click", () => {
     tick = setInterval(() => {
         board.moveontilemap();
     }, board.speed)
-})
+}
 // DEV TOOL
-document.getElementById("stop").addEventListener("click", () => {
-    clearInterval(tick)
-})
+// document.getElementById("stop").addEventListener("click", () => {
+//     clearInterval(tick)
+// })
 
 document.onkeypress = (event) => {
     let x = event.which || event.keyCode;
