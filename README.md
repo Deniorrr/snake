@@ -21,9 +21,13 @@ To run the project download the repo and start up "index.html"
 1. (Optional) Assign settings to your preferences.  
 Game speed is calculated as shown below:
 ```js
-board.speed = 1000 / input.speed //in miliseconds
+board.speed = (1000 / input.speed) //in miliseconds
+//So for example if you set the speed to 10, the game will update every 100 miliseconds
 ```
-So for example if you set the speed to 10, the game will update every 100 miliseconds
+2. Press "START" to start the game
+3. Steer with WASD
+4. After losing, you can change your settings, or just try once more pressing "START" again.  
+
 ## Inspiration
 I was bored at my programming lessons so I wrote the core of the game. Then at home I finished it up.
 ## Author
