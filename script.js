@@ -30,11 +30,6 @@ class Board {
         this.createTileMap()
         this.assign_position()
         this.set_colors()
-        this.draw_tile = () => {
-
-            structure += "<td>";
-            structure += "</td>";
-        }
         this.last_move;
         this.draw_apple_pos();
         this.changescoreboard();
@@ -52,7 +47,6 @@ class Board {
         let snake_head = document.getElementById("head_color").value
         let snake_body = document.getElementById("body_color").value
         let apple_color = document.getElementById("apple_color").value
-        console.log(stylesheet.rules[0])
         if(stylesheet.rules[0].selectorText==".head"){
             stylesheet.deleteRule(0)
             stylesheet.deleteRule(0)
@@ -161,32 +155,54 @@ class Board {
     lose() {
         clearInterval(tick);
         setTimeout(() => {
-            this.element.innerHTML = "<input type='button' id='start' value='start' onclick='start()'>"
-            //this.draw_losing_animation();
+            //this.element.innerHTML = "<input type='button' id='start' value='start' onclick='start()'>"
+            this.draw_losing_animation();
             //this.element.innerHTML += "<h1>GG</h1>";
         }, 5);
     }
 
     draw_losing_animation(){
-        let structure = "<input type='button' id='start' value='start'>"
-        structure += "<table>";
-        for (let i = 1; i <= this.height; i++) {
-            structure += "<tr>";
-            for (let j = 1; j <= this.width; j++) {
-                structure += "<td class=" + this.getTileMapByPosition(j, i) + ">";
-                //structure += this.tilemap[j][i];
-                structure += "</td>";
-            }
-            structure += "</tr>";
-        }
-        structure += "</table>";
-        this.element.innerHTML = structure;
+        let k = 1
+        let animation_speed = 30;
+            let animation = setInterval(() => {
+                let structure = "<input type='button' id='start' value='start' onclick='start()'>";
+                structure += "<table>";
+                
+                for (let i = 1; i <= this.height; i++) {
+                    if(k>=i){
+                        structure += "<tr class='invisible'>";
+                    }else{
+                        structure += "<tr>";
+                    }
+                for (let j = 1; j <= this.width; j++) {
+                    structure += "<td class=" + this.getTileMapByPosition(j, i) + ">";
+                    //structure += this.tilemap[j][i];
+                    structure += "</td>";
+                }
+                structure += "</tr>";
+                }
+                structure += "</table>";
+                this.element.innerHTML = structure;
+                console.log(k)
+                k+=1;
+                if(k>this.height)
+                {
+                    clearInterval(animation)
+                }
+            }, animation_speed);
+        setTimeout(()=>{
+            this.element.innerHTML = "<input type='button' id='start' value='start' onclick='start()'><h2>Game Over</h2>";
+        }, (animation_speed*(this.height)+100))
     }
     changescoreboard() {
         let scoreboard = document.getElementById("score");
         scoreboard.innerHTML = "SCORE: " + this.snake.score;
     }
-
+    sleep(ms) {
+        return new Promise(
+          resolve => setTimeout(resolve, ms)
+        );
+      }
 }
 
 board = null;

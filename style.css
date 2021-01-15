@@ -44,7 +44,8 @@ td {
     border-radius: 2px;
 }
 
-h1 {
+h1,
+h2 {
     color: #ffffff
 }
 
@@ -95,4 +96,13 @@ select {
 .color {
     display: flex;
     align-items: center;
+}
+
+.invisible {
+    opacity: 0;
+}
+
+h2 {
+    font-size: 40px;
+    margin-top: 3em;
 }
