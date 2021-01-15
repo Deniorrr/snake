@@ -1,8 +1,8 @@
 class Snake {
-    constructor() {
-        this.x = 3;
-        this.y = 3;
-        this.direction = "right";
+    constructor(x_pos, y_pos, direction) {
+        this.x = x_pos;
+        this.y = y_pos;
+        this.direction = direction;
         this.prev_x;
         this.prev_y;
         this.score = 0;
@@ -25,10 +25,11 @@ class Board {
         this.height = width;
         this.width = height;
         this.speed = 1000 / speed;
-        this.snake = new Snake();
+        this.snake = this.assign_snake();
         this.apple = new Apple();
         this.createTileMap()
         this.assign_position()
+        this.set_colors()
         this.draw_tile = () => {
 
             structure += "<td>";
@@ -37,6 +38,29 @@ class Board {
         this.last_move;
         this.draw_apple_pos();
         this.changescoreboard();
+
+    }
+    assign_snake(){
+        let x_pos = parseInt(document.getElementById("xpos").value);
+        let y_pos =  parseInt(document.getElementById("ypos").value);
+        let direction = document.getElementById("direction").value;
+        return new Snake(x_pos, y_pos, direction)
+        
+    }
+    set_colors(){
+        let stylesheet = document.styleSheets[0];
+        let snake_head = document.getElementById("head_color").value
+        let snake_body = document.getElementById("body_color").value
+        let apple_color = document.getElementById("apple_color").value
+        console.log(stylesheet.rules[0])
+        if(stylesheet.rules[0].selectorText==".head"){
+            stylesheet.deleteRule(0)
+            stylesheet.deleteRule(0)
+            stylesheet.deleteRule(0)
+        }
+        stylesheet.insertRule(".head {  background-color: "+snake_head+";}", 0);
+        stylesheet.insertRule(".tail {  background-color: "+snake_body+";}", 1);
+        stylesheet.insertRule(".apple {  background-color: "+apple_color+";}", 2);
     }
     assign_position() {
         this.tilemap[this.snake.y][this.snake.x] = -1
@@ -55,6 +79,7 @@ class Board {
         }
         structure += "</table>";
         this.element.innerHTML = structure;
+        //document.querySelector('.head').setAttribute('style', 'color: pink')
     }
     getTileMapByPosition(x, y) {
         if (this.tilemap[x][y] == 0) return " ";
@@ -112,7 +137,6 @@ class Board {
         //     }
         // }
         do {
-            
             this.apple.x = Math.floor(Math.random() * this.width + 1);
             this.apple.y = Math.floor(Math.random() * this.height + 1);
         } while (this.tilemap[this.apple.x][this.apple.y] != 0)
@@ -138,21 +162,37 @@ class Board {
         clearInterval(tick);
         setTimeout(() => {
             this.element.innerHTML = "<input type='button' id='start' value='start' onclick='start()'>"
-            this.element.innerHTML += "<h1>GG</h1>";
-        }, 1);
+            //this.draw_losing_animation();
+            //this.element.innerHTML += "<h1>GG</h1>";
+        }, 5);
+    }
 
+    draw_losing_animation(){
+        let structure = "<input type='button' id='start' value='start'>"
+        structure += "<table>";
+        for (let i = 1; i <= this.height; i++) {
+            structure += "<tr>";
+            for (let j = 1; j <= this.width; j++) {
+                structure += "<td class=" + this.getTileMapByPosition(j, i) + ">";
+                //structure += this.tilemap[j][i];
+                structure += "</td>";
+            }
+            structure += "</tr>";
+        }
+        structure += "</table>";
+        this.element.innerHTML = structure;
     }
     changescoreboard() {
         let scoreboard = document.getElementById("score");
         scoreboard.innerHTML = "SCORE: " + this.snake.score;
     }
+
 }
 
 board = null;
 
 let tick;
 function start(){
-    console.log("ESSA")
     tick = null;
     window.board = null;
     let height = document.getElementById("height").value;

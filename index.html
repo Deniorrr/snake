@@ -10,9 +10,26 @@
 
 <body>
     <div id="settings" class="settings">
-        <label for="height">HEIGHT:<input type="number" id="height" min="5" max="25"></label><br>
-        <label for="width">WIDTH:<input type="number" id="width" min="5" max="30"></label><br>
-        <label for="speed">SPEED:<input type="number" id="speed" min="1"></label><br>
+        <h1>Board</h1>
+        <label for="height">Height: <input type="number" id="height" min="5" max="25" value="15"></label><br>
+        <label for="width">Width: <input type="number" id="width" min="5" max="30" value="15"></label><br>
+        <label for="speed">Speed: <input type="number" id="speed" min="1" value="8"></label><br>
+        <h1>Snake</h1>
+        <label for="xpos">X position: <input type="number" id="xpos" min="1" value="3"></label><br>
+        <label for="ypos">Y position: <input type="number" id="ypos" min="1" value="3"></label><br>
+        <label for="direction">Direction: 
+            <select id="direction">
+                <option value="right">Right</option>
+                <option value="down">Down</option>
+                <option value="left">Left</option>
+                <option value="top">Top</option>
+            </select>
+        </label>
+        <label for="head_color" class="color">Head color:<input type="color" id="head_color" value="#006400"></label>
+        <label for="body_color" class="color">Body color:<input type="color" id="body_color" value="#adff2f"></label>
+        <h1>Apple</h1>
+        <label for="apple_color" class="color">Color:<input type="color" id="apple_color" value="#ff0000"></label><br>
+
     </div>
     <h3 id="score" class="score">
     </h3>
