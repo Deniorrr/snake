@@ -27,6 +27,7 @@ board.speed = (1000 / input.speed) //in miliseconds
 2. Press "START" to start the game
 3. Steer with WASD
 4. After losing, you can change your settings, or just try once more pressing "START" again.  
+Feel free to play with all settings
 
 ## Inspiration
 I was bored at my programming lessons so I wrote the core of the game. Then at home I finished it up.
